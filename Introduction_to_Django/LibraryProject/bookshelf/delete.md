@@ -1,8 +1,9 @@
 DELETE
 ------
-# commands
->>> from bookshelf.models import Book
+>>>from bookshelf.models import Book
 >>> Book.objects.all()
 <QuerySet [<Book: Nineteen Eighty-Four>]>
->>> Book.objects.all().delete()
+>>> book.delete()
 (1, {'bookshelf.Book': 1})
+>>> Book.objects.all()
+<QuerySet []>
