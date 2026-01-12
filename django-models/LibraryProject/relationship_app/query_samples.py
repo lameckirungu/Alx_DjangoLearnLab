@@ -31,13 +31,16 @@ def list_books_in_library(library_name):
     except Library.DoesNotExist:
         print(f"No library found with name '{library_name}'")
 
-def retrieve_librarian_for_library(librarian_name):
+def retrieve_librarian_for_library(library_name):
     """Retrieve the librarian for a library"""
     try:
-        librarian = Librarian.objects.get(name=librarian_name)
-        print(f"Librarian {librarian} belongs to the library {Librarian.library}")
+        library = Library.objects.get(library=library_name)
+        librarian = Librarian.objects.get(library=library)
+        print(f"Librarian {library_name} belongs to the library {librarian.name}")
     except Librarian.DoesNotExist:
-        print(f"No librarian found with name '{librarian_name}'")
+        print(f"No librarian found for '{library_name}'")
+    except Library.DoesNotExist:
+        print(f"No library found with name '{library_name}'")
 if __name__ == "__main__":
     # Example usage
     query_books_by_author("Chinua Achebe")
