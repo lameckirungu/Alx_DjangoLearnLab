@@ -6,10 +6,17 @@ from relationship_app.models import Author, Book, Library, Librarian
 
 def query_books_by_author(author_name):
     """Query all books by a specific author"""
-    books = Book.objects.filter(author__name=author_name)
-    print(f"Books by {author_name}:")
-    for b in books:
-        print(f"- {b.title} - {b.author}")
+    try:
+        author = Author.objects.get(name=author_name)
+        books = Book.objects.filter(author=author)
+        print(f"Books by {author}:")
+
+        for b in books:
+         print(f"- {b.title} - {b.author.name}")
+        
+    except Author.DoesNotExist:
+        print(f"No Author found with name '{author_name}'")
+    
 
 def list_books_in_library(library_name):
     """List all books in a library"""
