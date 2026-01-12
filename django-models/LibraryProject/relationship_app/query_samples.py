@@ -12,7 +12,7 @@ def query_books_by_author(author_name):
         print(f"- {b.title} - {b.author}")
 
 def list_books_in_library(library_name):
-    """List all books in a specific library"""
+    """List all books in a library"""
     try:
         library = Library.objects.get(name=library_name)
         books = library.books.all()
@@ -25,7 +25,7 @@ def list_books_in_library(library_name):
         print(f"No library found with name '{library_name}'")
 
 def retrieve_librarian_for_library(librarian_name):
-    """Get the librarian for a library"""
+    """Retrieve the librarian for a library"""
     try:
         librarian = Librarian.objects.get(name=librarian_name)
         print(f"Librarian {librarian} belongs to the library {Librarian.library}")
