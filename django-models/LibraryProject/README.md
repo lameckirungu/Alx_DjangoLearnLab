@@ -59,16 +59,52 @@ Next steps
 - Add the app to `INSTALLED_APPS` in `settings.py`.
 - Create models, run migrations, and build views/templates.
 
-#1. Implementing and Interacting with Django Models
+Tasks
+-----
+#0. Implementing Advanced Model Relationships in Django
 -----------
 
  Objective:
  ---
-Demonstrate proficiency in Django by creating a Book model within a Django app, implementing it according to specified attributes, and using Django’s ORM to perform database operations.
+Master Django's ORM capabilities by creating a set of models that demonstrate the use of `ForeignKey`, `ManyToMany` and `OneToOne` relationships. This task will help me understand how to model complex data relationships in a Django project effectively.
 
 Task Description:
 -----------------
-For this task, you will develop a Django app named bookshelf within your existing Django project. You will define a Book model with specific attributes and demonstrate basic CRUD operations through the Django shell. This task is structured to ensure consistent implementations suitable for automated checking.
+- Duplicate the previous project directory `Introduction_to_Django`, rename it to `django-models` and add a new app named `relationship_app` where you'll define models that showcase complex relationships between entities using `ForeignKey`, `ManyToMany` and `OneToOne` fields.
+- Implement Sample Queries: Prepare a python script `query_samples.py` in the `relationship_app` directory. This script should contain the query for each of the following relationships:
+    - Query all books by aspecific author
+    - List all books in a library.
+    - Retrieve the librarian for a library.
+
+#1 Django Views and URL configurration
+---
+Objective
+---
+Develop proficiency in creating both function-based and class-based views in Django, and configuring URL patterns to handle web requests effectively. This task will help you understand different ways to define views and manage URL routing in Django.
+
+Task Description
+---
+In your existing Django project, enhance the `relationship_app` by adding new views that display information about books and libraries. Implement both function-based and class-based views to handle these displays and configure the URL patterns to route these views correctly.
+
+Steps:
+---
+#### Implement Function-based View:
+- Create a function-based view in `relationship_app/views.py` that lists all books stored in the database.
+This view should render a simple text list of book titles and their authors.
+
+#### Implement Class-based View:
+
+- Create a class-based view in `relationship_app/views.py` that displays details for a specific library, listing all books available in that library.
+Utilize Django’s ListView or DetailView to structure this class-based view.
+
+#### Configure URL Patterns:
+
+- Edit `relationship_app/urls.py` to include URL patterns that route to the newly created views. Make sure to link both the function-based and class-based views.
+
+#### Create Templates (Optional for Display):
+
+- For a more structured output, using the code below as templates for each view to render the information in HTML format instead of plain text.
+
 
 References
 ----------
