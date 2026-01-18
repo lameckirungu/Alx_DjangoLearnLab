@@ -3,16 +3,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
+    <title>Librarian Portal</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1>Admin Dashboard</h1>
-    <p>Welcome, Admin! You have full access to manage the library system.</p>
+    <h1>Librarian Portal</h1>
+    <p>Welcome, Librarian! You can manage library resources.</p>
     <ul>
         <li><a href="{% url 'relationship_app:list_books' %}">View All Books</a></li>
-        <li><a href="#">Manage Users</a></li>
-        <li><a href="#">View Reports</a></li>
+        <li><a href="#">Add New Book</a></li>
+        <li><a href="#">Manage Library</a></li>
     </ul>
     <a href="{% url 'relationship_app:logout' %}">Logout</a>
 </body>
