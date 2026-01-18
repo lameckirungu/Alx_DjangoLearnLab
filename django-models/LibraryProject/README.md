@@ -166,10 +166,10 @@ Create three separate views to manage content access based on user roles:
 - utilize the `@user_passes_test` decorator to check the user's role before granting access to each view
 
 
-### 3. Configure URL patterns:
+#### 3. Configure URL patterns:
 Define URL patterns that will route to the newly create role-specific views.
 
-### 4. Create Role-Based HTML templates:
+#### 4. Create Role-Based HTML templates:
 For each role, create a HTML template to display relevant content when users access their respective views, namely:
 
 - `admin_view.html` for Admin users.
