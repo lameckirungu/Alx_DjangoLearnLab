@@ -1,5 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import DetailView
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView as DjangoLoginView, LogoutView as DjangoLogoutView
 from .models import Author, Book, Library, Librarian
 
 # Function-based view: list all books
@@ -25,3 +29,36 @@ class LibraryDetailView(DetailView):
     model = Library
     template_name = 'relationship_app/library_detail.html'
     context_object_name = 'library'
+
+class LoginView(DjangoLoginView):
+    """  
+    Django's built-in LoginView handles user authentication.
+    Renders the login template and processes login form submissions.
+    """
+    template_name = 'relationship_app/login.html'
+    redirect_authenticated_user = True
+
+class LogoutView(DjangoLogoutView):
+    """
+    Django's built-in LogoutView handles user logout.
+    Clears the session and redirects to home.
+    """
+    template_name = 'relationship_app/logout.html'
+
+def register(request):
+    """
+    Handle user registration with UserCreationFrom
+
+    GET: Display registration form
+    POST: Process form submission and create new user
+    """
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save() # create user in db
+            login(request, user)
+            return redirect('list_books') # Redirect to home page
+    else:
+        form = UserCreationForm()
+
+    return render(request, 'relationship_app/register.html', {'form': form})
