@@ -1,15 +1,15 @@
 from django.urls import path
-from .views import list_books, LibraryDetailView, LoginView, LogoutView, register
+from . import views
 
 app_name = 'relationship_app' # namespace for reverse URL lookups
 
 urlpatterns = [
     # Function-based view: /books
-    path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
-    path('register/', register, name='register'),
-    path('books/', list_books, name='list_books'),
+    path('login/', views.LoginView.as_view(template_name='relationship_app/login.html'), name='login'),
+    path('logout/', views.LogoutView.as_view(template_name='relationship_app/logout.html'), name='logout'),
+    path('register/', views.register, name='register'),
+    path('books/', views.list_books, name='list_books'),
 
     # class-based view: /library/<pk>
-    path('library/<int:pk>/', LibraryDetailView.as_view(), name='library_detail')
+    path('library/<int:pk>/', views.LibraryDetailView.as_view(), name='library_detail')
 ]
