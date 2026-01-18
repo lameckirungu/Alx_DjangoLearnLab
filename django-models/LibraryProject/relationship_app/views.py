@@ -1,10 +1,9 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.views.generic import DetailView
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView as DjangoLoginView, LogoutView as DjangoLogoutView
-from .models import Author, Book, Library, Librarian
+from .models import Book, Library
 
 # Function-based view: list all books
 def list_books(request):
@@ -44,6 +43,7 @@ class LogoutView(DjangoLogoutView):
     Clears the session and redirects to home.
     """
     template_name = 'relationship_app/logout.html'
+    next_page = 'relationship_app:login'
 
 def register(request):
     """
@@ -57,7 +57,7 @@ def register(request):
         if form.is_valid():
             user = form.save() # create user in db
             login(request, user)
-            return redirect('list_books') # Redirect to home page
+            return redirect('relationship_app:list_books') # Redirect to home page
     else:
         form = UserCreationForm()
 

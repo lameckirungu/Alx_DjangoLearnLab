@@ -11,5 +11,5 @@ urlpatterns = [
     path('books/', list_books, name='list_books'),
 
     # class-based view: /library/<pk>
-    path('/library/<int:pk>/', LibraryDetailView.as_view(), name='library_detail')
+    path('library/<int:pk>/', LibraryDetailView.as_view(), name='library_detail')
 ]
