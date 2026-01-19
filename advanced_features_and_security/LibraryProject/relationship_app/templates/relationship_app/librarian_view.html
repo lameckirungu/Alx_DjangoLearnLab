@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Librarian Portal</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Librarian Portal</h1>
+    <p>Welcome, Librarian! You can manage library resources.</p>
+    <ul>
+        <li><a href="{% url 'relationship_app:list_books' %}">View All Books</a></li>
+        <li><a href="#">Add New Book</a></li>
+        <li><a href="#">Manage Library</a></li>
+    </ul>
+    <a href="{% url 'relationship_app:logout' %}">Logout</a>
+</body>
+</html>

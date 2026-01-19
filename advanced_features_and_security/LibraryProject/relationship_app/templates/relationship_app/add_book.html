@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Book</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Add New Book</h1>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="title">Book Title:</label>
+        <input type="text" id="title" name="title" required>
+        
+        <label for="author">Author Name:</label>
+        <input type="text" id="author" name="author" required>
+        
+        <button type="submit">Add Book</button>
+    </form>
+    <a href="{% url 'relationship_app:list_books' %}">Back to Books</a>
+</body>
+</html>
