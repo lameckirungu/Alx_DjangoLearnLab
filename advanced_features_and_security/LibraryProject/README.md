@@ -60,3 +60,49 @@ Step 5: Update your Application to use the Custom User Model
 Adjust any part of your application that references the user model to use sthe new custom model.
 - Application Updates:
     - Update all foreign keys or user model references in your other models to use the custom user model 
+
+---
+_**#1. Managing Permissions and Groups in Django**_
+
+### Objective
+---
+Implement and Manage permissions and groups to control access to various parts of your Django application, enhancing security and functionality.
+
+### Task Description:
+---
+Develop a system within your Django application that utilizes groups and permissions to restrict access to certain parts of your application. This task will demonstrate your ability to set up detailed access controls based on user roles and their assigned permissions.
+
+Step 1: Define Custom Permissions in Models
+---
+Add custom permissions to one of your existing models (or a new model if preferable) to control actions such as viewing, creating, editing, or deleting instances of that model.
+- Model Permissions to add:
+    - Create permissions such as `can_view`, `can_create`, `can_edit`, and `can_delete` within your chosen model.
+
+Step 2: Create and Configure Groups with Assigned Permissions
+---
+Set up user groups in Django and assign the newly created permissions to these groups. Use Django's admin site to manage these groups. 
+
+- Groups to Setup:
+    - Create groups like `Editors`, `Viewers`, and `Admins`.
+    - Assign appropriate permissions to each group. For example, `Editors` might have `can_edit` and `can_create` permissions.
+
+
+Step 3: Enforce Permissions in Views
+---
+Modify your views to check for these permissions before allowing users to perform certain actions. Use decorators such as `permission_required` to enforce these permissions in your views.
+- Views to Modify or Create:
+    - Ensure views that create, edit, or delete model instances check for the correct permissions.
+    - Exmaple: use 
+    `@permission_required('app_name.can_edit', raise exception=True)` to protect an edit view.
+
+Step 4: Test Permissions
+---
+Manually test the implementation by assigning different users to groups and verifying that the permissions are enforced correctly.
+- Testing Approach:
+    - Create test users and assign them to different groups.
+    - Log in as these users and attempt to access various parts of the application to ensure that permissions are applied correctly.
+
+Step 5: Document the Setup
+---
+- Provide a concise guide or notes within your code on how the permissions and groups are set up and used in the application. This could be in the form of comments or a simple README file. Make sure to use the variable name as dfined above such as `can_edit`...
+
