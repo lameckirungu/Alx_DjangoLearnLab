@@ -218,3 +218,61 @@ LibraryProject/
 ├── manage.py
 ```
 
+_**#3. Implementing HTTPS and Secure Redirects in Django**_
+---
+### Objective
+
+---
+Enhance the security of your Django application by configuring it to handle seccure HTTPS connections and enforce HTTPS redirects for all HTTP requests. This task will ensure that your application adheres to best practices for secure web communication.
+
+### Task Description
+
+---
+Configure your Django application to support and enforce HTTPS, protecting the data between the client and the server.
+This includes setting up HTTPS redirects, configuring security-related headers, and ensuring that your site is served securely.
+
+#### _Step 1: Configure Django for HTTPS Support_
+---
+
+Adjust your Django settings to strengthen the security of your application by enforcing HTTPS connections.
+
+- Security settings to adjust:
+  - `SECURE_SSL_REDIRECT`: Set to `True` to redirect all non-HTTPS requests to HTTPS.
+  - `SECURE_HSTS_SECONDS`: Set an appropriate value to instruct browsers to only access the site via HTTPS for the specified time.
+  - `SECURE_HSTS_INCLUDE_SUBDOMAINS` and `SECURE_HSTS_PRELOAD`: Set to `True` to include all subdomains in the HSTS policy and to allow preloading.
+
+#### _Step 2: Enforce Secure Cookies_
+---
+
+Modify cookie settings to enhance security by ensuring that cookies are only sent over secure HTTPS connections.
+
+- `SESSION_COOKIE_SECURE`: Set to `True` to ensure session cookies are only transmitted over HTTPS.
+- `CSRF_COOKIE_SECURE`: Set to `True` to ensure CSRF cookies are only transmitted over HTTPS.
+
+#### _Step 3: Implement Secure Headers_
+---
+
+Add additional HTTP headers to further secure your application from various types of attackes like clickjacking and XSS.
+
+- Headers to Implement:
+  - `X_FRAME_OPTIONS`: Set to `DENY` to prevent your site from being framed and protect against clickjacking.
+  - `SECURE_CONTENT_TYPE_NOSNIFF`: Set to `True` to prevent browsers from MIME-sniffing a response awaw from the declared content-type.
+  - `SECURE_BROWSER_XSS_FILTER`: Set to `True` to enable the browser's XSS filtering and help prevent XSS attacks.
+
+
+#### _Step 4: Update Deployment Configuration_
+---
+
+Ensure that your deployment environment is configured to support HTTPS by setting up SSL/TLS certificates. This might involve updating your web server ocnfig to include SSL directives and certificate files.
+
+
+#### _Step 5: Documentation and Review_
+---
+
+Document the changes made to secure the application, particularly how HTTPS and related security settings are implemented and enforced. Review all settings to ensure they are correctly configured for your production environment.
+
+#### Deliverables:
+
+- `settings.py`: Documented hanges with detailed comments on each security setting configured.
+- Deployment configuration: Instructions or scripts used to configure your web server for HTTPS, included as part of your deployment documentation.
+- Security Review: A brief report detailing the security measures implemented, how they contribute to securing the application, and any potential areas for improvement.
