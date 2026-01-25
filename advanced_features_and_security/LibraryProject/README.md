@@ -134,3 +134,87 @@ Manually test the implementation by assigning different users to groups and veri
 
 - Provide a concise guide or notes within your code on how the permissions and groups are set up and used in the application. This could be in the form of comments or a simple README file. Make sure to use the variable name as dfined above such as `can_edit`...
 
+---
+
+_**#2. Implementing Security Best Practices in Django**_
+---
+### Objective
+
+---
+Apply best practices for securing a Django application. This task will guide you through enhancing the security of your application by configuring various Django settings and writing secure code.
+
+### Task Description
+
+---
+Implement several security measures in your Django project to protect against common vulnerabilities such as XSS, CSRF, and SQL injection. This will involve configuring settings and modifying templates and views to enforce these protections.
+
+#### _Step 1: Configure Secure settings_
+---
+
+Focus on settings that prevent security vulnerabilities and ensure data privacy.
+
+- Security settings to oconfigure:
+  - Set `DEBUG` to `False` in production.
+  - Configure `SECURE_BROWSER_XSS_FILTER`, `X_FRAME_OPTIONS` and `SECURE_CONTENT_TYPE_NOSNIFF` to add additional browser-side protections.
+  - Ensure `CSRF_COOKIE_SECURE` and `SESSION_COOKIE_SECURE` are set to `True` to enforce that cookies are sent over HTTPS only. 
+
+#### _Step 2: Protect Views with CSRF Tokens_
+---
+
+Ensure that all your forms use CSRF tokens to protect against CSRF attacks. This involves modifying form templates to include `{% csrf_token %}`.
+
+#### _Step 3: Secure Data Access in Views_
+---
+
+Modify your views  to avoid SQL injection and ensure safe handling of user input, especially in search functionalities or where direct SQL queries are used.
+
+- Views to Secure:
+  - Use Django's ORM properly to parameterize queries instead of string formatting.
+  - Validate and Sanitize all user inputs using Django forms or other validation methods.
+
+#### _Step 4: Implement Content Security Policy (CSP)_
+---
+
+Set up a CSP header to reduce the risk of XSS attacks by specifying which domains can be used to load content in your application.
+
+- Use Django's `django-csp` middleware or manually set the CSP header in your response objects.
+
+#### _Step 5: Documentation and Testing_
+---
+
+- Documenation:
+    - Comment within your code on how and why specific security settings or practices are implemented.
+- Testing Approach:
+    - Manually test the application to check for secure handling of inputs and responses. Test forms and input fields for CSRF and XSS vulnerabilities.
+
+Project Structure
+---
+```
+LibraryProject/
+│
+├── LibraryProject/
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│
+├── bookshelf/
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── migrations/
+│   │   ├── __init__.py
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   ├── views.py
+│   └── templates/
+│       └── bookshelf/
+│           ├── book_list.html
+│           ├── form_example.html
+│
+├── manage.py
+```
+
