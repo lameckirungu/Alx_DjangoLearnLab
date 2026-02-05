@@ -26,9 +26,8 @@ class AuthorSerializer(serializers.ModelSerializer):
     dynamically serializers all books related to the author (one-to-one relationship).
     The 'books' field uses teh `related_name` defined on the Book.author FK.
     """
-    books = BookSerializer(many=True, read_only=True, source='book_set')
+    books = BookSerializer(many=True, read_only=True)
 
     class Meta:
         model = Author
         fields = ['name', 'books']
-        
