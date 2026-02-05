@@ -52,12 +52,17 @@ This task involves setting up a new Django project from scratch, installing Djan
 - Create a `BookSerializer` that serializes all fields of the `Book` model.
 - Create an `AuthorSerializer` that includes:
     - The `name` field.
-    - A nested `BookSerializer` to serialize the related books dynamically.
+- A nested `BookSerializer` to serialize the related books dynamically.
 
 Validation Requirements:
 
 - Add custom validation to the `BookSerializer` to ensure the `publication_year` is not in the future.
 
 **_Step 5_: Document Your Model and Serializer Setup**
-In the `models.py` and `serializers.py`, add detailed comments explaining the purpose of each model and serializer.
+
+- In the `models.py` and `serializers.py`, add detailed comments explaining the purpose of each model and serializer.
 - Describe how the relationship between `Author` and `Book` is handled in your serializers.
+
+** _Step 6_: Implement and Test**
+
+- Use Django admin or the django shell to manually test creating, retreiving, and serializing `Author` and `Book` instances to ensure serializers work as expected.
