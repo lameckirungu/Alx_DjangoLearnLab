@@ -78,11 +78,11 @@ Expand your `advanced_api_project` by creating and configuring custom views usin
 **_Step 1_: Set Up Generic Views**
 
 - Implement a set of generic views for the `Book` model to handle CRUD ops:
-    - A `ListView` for retrieving all books.
-    - A `DetailView` for retrieving a single book by ID.
-    - A `CreateView` for adding a new book.
-    - An `UpdateView` for modifying an existing book.
-    - A `DeleteView` for removing a book.
+  - A `ListView` for retrieving all books.
+  - A `DetailView` for retrieving a single book by ID.
+  - A `CreateView` for adding a new book.
+  - An `UpdateView` for modifying an existing book.
+  - A `DeleteView` for removing a book.
 
 **_Step 2_: Define URL Patterns**
 
@@ -159,9 +159,9 @@ Enhance the usability and functionality of your API by implementing filtering, s
 **_Step 1_: Understand What To TEst**
 
 - Identify Key Areas:
-    - Focus on testing CRUD operations for the Book model endpoints.
-    - Test the filtering, searching, and ordering functionalities to verify they work as intended.
-    - Ensure that permissions and authentication mechanisms are correctly enforcing access controls.
+  - Focus on testing CRUD operations for the Book model endpoints.
+  - Test the filtering, searching, and ordering functionalities to verify they work as intended.
+  - Ensure that permissions and authentication mechanisms are correctly enforcing access controls.
 
 **_Step 2_: Set up Testing Environment**
 
@@ -172,10 +172,10 @@ Enhance the usability and functionality of your API by implementing filtering, s
 **_step 3_: Write Test Cases**
 
 - Write tests that simulate API requests and check for correct status codes and response data. This includes:
-- Creating a `Book` and ensuring the data is correctly saved and returned.
-- Updating a `Book` and verifying the changes are reflected.
-- Deleting a `Book` and ensuring it is removed from the database.
-- Testing each endpoint with appropriate authentication and permission scenarios to ensure security controls are effective..
+  - Creating a `Book` and ensuring the data is correctly saved and returned.
+  - Updating a `Book` and verifying the changes are reflected.
+  - Deleting a `Book` and ensuring it is removed from the database.
+  - Testing each endpoint with appropriate authentication and permission scenarios to ensure security controls are effective..
 
 **_Step 4_: Run and Review Tests**
 
