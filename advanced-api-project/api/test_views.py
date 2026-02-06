@@ -79,5 +79,5 @@ class BookAPITests(APITestCase):
         """
         response = self.client.get(f"{self.list_url}?title=You and Me")
         data = response.json()
-        self.assertEqual(len(data), 1)
-        self.assertEqual(data[0]['title'], "You and Me")
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['title'], "You and Me")
