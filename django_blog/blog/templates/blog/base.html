@@ -10,52 +10,29 @@
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li>
+        <nav class="nav-bar">
+            <ul class="nav-links">
                 {% if user.is_authenticated %}
-                    <form method="post" action="{% url 'logout' %}" style="display:inline;">
-                    {% csrf_token %}
-                     <button type="submit">Logout</button>
-                    </form>
-                {% else %}
-                    <a href="{% url 'login' %}">Login</a>
-                {% endif %}
-                </li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
                 <li>
-                {% if user.is_authenticated %}
-                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    <form method="post" action="{% url 'logout' %}" class="inline-form">
                         {% csrf_token %}
-                        <button type="submit">Logout</button>
+                        <button type="submit" class="link-button">Logout</button>
                     </form>
+                </li>
                 {% else %}
-                    <a href="">Login</a>
-                    <a href="">Register</a>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
                 {% endif %}
-                </li>
-                <li>
-                {% if user.is_authenticated %}
-                    <a href="{% url 'profile' %}">Profile</a>
-                    <form method="post" action="{% url 'logout' %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit">Logout</button>
-                    </form>
-                    {% else %}
-                    <a href="{% url 'login' %}">Login</a>
-                    <a href="{% url 'register' %}">Register</a>
-                    {% endif %}
-
-                </li>
-
             </ul>
         </nav>
     </header>
 
-    <div class="content">
+    <main class="content">
         {% block content %}
         <!-- Page-specific content goes here -->
         {% endblock %}
-    </div>
+    </main>
 
     <footer>
         <p>&copy; 2024 Django Blog</p>
