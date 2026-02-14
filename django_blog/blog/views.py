@@ -1,13 +1,15 @@
+from django.db.models.query import QuerySet
 from django.forms import BaseModelForm
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
 
-from .models import Post, Comment
+from .models import Post, Comment, Tag
 from .forms import RegisterForm, PostForm, CommentForm
 
 
@@ -41,6 +43,40 @@ class PostListView(ListView):
     context_object_name = "posts"
     ordering = ["-published_date"]
 
+class PostByTagListView(ListView):
+    model = Post
+    template_name = "blog/post_list.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        self.tag = get_object_or_404(Tag, name=self.kwargs["tag_name"])
+        return Post.objects.filter(tags=self.tag).order_by("-published_date")
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["active_tag"] = self.tag
+        return context
+    
+class SearchResultsView(ListView):
+    model = Post
+    template_name = "blog/search_results.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        query = self.request.GET.get("q", "").strip()
+        if not query:
+            return Post.objects.none()
+        return Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct().order_by("-published_date")
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["query"] = self.request.GET.get("q", "").strip()
+        return context
+
 class PostDetailView(DetailView):
     model = Post
     template_name = "blog/post_detail.html"
@@ -71,6 +107,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self) -> bool | None:
         return self.get_object().author == self.request.user
 
+
 class CommentListView(ListView):
     model = Comment
     template_name = "blog/comment_list.html"
@@ -90,6 +127,9 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
         form.instance.author = Post.objects.get(pk=self.kwargs["post_id"])
         return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy("post-detail", kwargs={"pk": self.object.post.pk})
 
 class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment
