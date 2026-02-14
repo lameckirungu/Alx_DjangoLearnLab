@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<article>
+  <h1>{{ comment.title }}</h1>
+  <p>{{ comment.content }}</p>
+  <small>By {{ comment.author.username }} on {{ comment.updated_at }}</small>
+</article>
+
+{% if user == comment.author %}
+  <a href="{% url 'comment-update' comment.pk %}">Edit</a>
+  <a href="{% url 'comment-delete' comment.pk %}">Delete</a>
+{% endif %}
+<a href="{% url 'comment-list' %}">Back to comments</a>
+{% endblock %}
