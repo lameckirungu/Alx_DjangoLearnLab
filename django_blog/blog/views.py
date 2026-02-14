@@ -88,7 +88,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     template_name = "blog/comment_form.html"
 
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
-        form.instance.author = self.request.user
+        form.instance.author = Post.objects.get(pk=self.kwargs["post_id"])
         return super().form_valid(form)
 
 class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -104,3 +104,6 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Comment
     template_name = "blog/comment_delete.html"
     success_url = reverse_lazy("comment-list")
+
+    def test_func(self) -> bool | None:
+        return self.get_object().author == self.request.user

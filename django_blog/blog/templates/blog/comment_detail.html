@@ -1,7 +1,6 @@
 {% extends "blog/base.html" %}
 {% block content %}
 <article>
-  <h1>{{ comment.title }}</h1>
   <p>{{ comment.content }}</p>
   <small>By {{ comment.author.username }} on {{ comment.updated_at }}</small>
 </article>

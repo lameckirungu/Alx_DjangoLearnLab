@@ -19,4 +19,4 @@ class CommentForm(forms.ModelForm):
     
     class Meta:
         model = Comment
-        fields = ["post", "author", "updated_at", "content"]
+        fields = ["content"]

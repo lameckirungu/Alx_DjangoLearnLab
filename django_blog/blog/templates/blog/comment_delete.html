@@ -2,7 +2,7 @@
 {% block content %}
 <h1>Delete Comment</h1>
 <p>Are you sure you want to delete "{{ object.content }}"?</p>
-<form method="comment">
+<form method="post">
   {% csrf_token %}
   <button type="submit">Yes, delete</button>
 </form>
