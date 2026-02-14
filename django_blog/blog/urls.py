@@ -1,7 +1,13 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 from .views import register, profile
-from .views import PostListView, PostUpdateView, PostCreateView, PostDeleteView, PostDetailView
+from .views import (
+    PostListView, PostUpdateView, 
+    PostCreateView, PostDeleteView, PostDetailView,
+
+    CommentListView, CommentUpdateView, 
+    CommentCreateView, CommentDeleteView, CommentDetailView
+)
 
 urlpatterns = [
     path("login/", LoginView.as_view(template_name="blog/login.html"), name="login"),
@@ -14,4 +20,10 @@ urlpatterns = [
     path("post/<int:pk>/", PostDetailView.as_view(), name="post-detail"),
     path("post/<int:pk>/update/", PostUpdateView.as_view(), name="post-update"),
     path("post/<int:pk>/delete/", PostDeleteView.as_view(), name="post-delete"),
+
+    path("comment/", CommentListView.as_view(), name="comment-list"),
+    path("comment/new/", CommentCreateView.as_view(), name="comment-create"),
+    path("comment/<int:pk>/", CommentDetailView.as_view(), name="comment-detail"),
+    path("comment/<int:pk>/update/", CommentUpdateView.as_view(), name="comment-update"),
+    path("comment/<int:pk>/delete/", CommentDeleteView.as_view(), name="comment-delete"),
 ]   
