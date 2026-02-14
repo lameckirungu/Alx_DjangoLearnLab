@@ -1,4 +1,3 @@
-from django.db.models.query import QuerySet
 from django.forms import BaseModelForm
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -9,7 +8,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
 
-from .models import Post, Comment, Tag
+from .models import Post, Comment
 from .forms import RegisterForm, PostForm, CommentForm
 
 
@@ -49,12 +48,12 @@ class PostByTagListView(ListView):
     context_object_name = "posts"
 
     def get_queryset(self):
-        self.tag = get_object_or_404(Tag, name=self.kwargs["tag_name"])
-        return Post.objects.filter(tags=self.tag).order_by("-published_date")
+        self.tag_name = self.kwargs["tag_name"]
+        return Post.objects.filter(tags__name=self.tag_name).order_by("-published_date")
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["active_tag"] = self.tag
+        context["active_tag"] = self.tag_name
         return context
     
 class SearchResultsView(ListView):
@@ -125,7 +124,8 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     template_name = "blog/comment_form.html"
 
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
-        form.instance.author = Post.objects.get(pk=self.kwargs["post_id"])
+        form.instance.author = self.request.user
+        form.instance.post = get_object_or_404(Post, pk=self.kwargs["post_id"])
         return super().form_valid(form)
     
     def get_success_url(self):
