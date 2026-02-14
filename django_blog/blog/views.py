@@ -66,7 +66,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 
-class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DestroyView):
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = "blog/post_confirm_delete.html"
     success_url = reverse_lazy("post-list")
