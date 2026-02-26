@@ -2,9 +2,11 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, generics, permissions, status
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, BasePermission, SAFE_METHODS
+from rest_framework.response import Response
 
 from .models import Post, Comment, Like
 from .serializers import PostSerializer, CommentSerializer
+from notifications.models import Notification
 
 class isOwnerOrReadonly(BasePermission):
     def has_object_permission(self, request, view, obj):
@@ -45,8 +47,8 @@ class LikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Post.objects.all()
 
-    def post(self, request, post_id, *args, **kwargs):
-        post = get_object_or_404(Post, id=post_id)
+    def post(self, request, pk, *args, **kwargs):
+        post = get_object_or_404(Post, id=pk)
 
         like, created = Like.objects.get_or_create(
             user=request.user,
@@ -76,8 +78,8 @@ class UnlikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Post.objects.all()
 
-    def delete(self, request, post_id, *args, **kwargs):
-        post = get_object_or_404(Post, id=post_id)
+    def delete(self, request, pk, *args, **kwargs):
+        post = get_object_or_404(Post, id=pk)
 
         deleted_count, _ = Like.objects.filter(
             user=request.user,
