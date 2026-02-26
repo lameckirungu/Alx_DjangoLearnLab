@@ -17,10 +17,11 @@ class Notification(models.Model):
     )
     target_object_id = models.PositiveBigIntegerField(null=True, blank=True)
     target = GenericForeignKey("target_content_type", "target_object_id")
+    is_read = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ["-timestamp"]
+        ordering = ["is_read", "-timestamp"] #unread first, then newest
 
     def __str__(self):
         return f"{self.actor} {self.verb}"
