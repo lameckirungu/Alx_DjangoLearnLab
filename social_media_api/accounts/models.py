@@ -32,7 +32,7 @@ class Follow(models.Model):
                 name="unique_follower_following",
             ),
             models.CheckConstraint(
-                check=~Q(follower=F("following")),
+                condition=~Q(follower=F("following")),
                 name="prevent_self_follow",
             ),
         ]
