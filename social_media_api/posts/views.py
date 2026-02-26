@@ -1,4 +1,3 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, generics, permissions, status
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, BasePermission, SAFE_METHODS
@@ -48,12 +47,9 @@ class LikePostView(generics.GenericAPIView):
     queryset = Post.objects.all()
 
     def post(self, request, pk, *args, **kwargs):
-        post = get_object_or_404(Post, id=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
 
-        like, created = Like.objects.get_or_create(
-            user=request.user,
-            post=post,
-        )
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
         if not created:
             return Response(
                 {"detail": "You already liked this post."},
@@ -79,7 +75,7 @@ class UnlikePostView(generics.GenericAPIView):
     queryset = Post.objects.all()
 
     def delete(self, request, pk, *args, **kwargs):
-        post = get_object_or_404(Post, id=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
 
         deleted_count, _ = Like.objects.filter(
             user=request.user,
