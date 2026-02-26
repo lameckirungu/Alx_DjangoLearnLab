@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics, permissions
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
 
@@ -55,12 +55,14 @@ class ProfileView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 User = get_user_model()
+CustomUser = get_user_model()
 
-class FollowUserView(APIView):
-    permission_classes = [IsAuthenticated]
+class FollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = CustomUser.objects.all()
 
     def post(self, request, user_id):
-        target_user = get_object_or_404(User, id=user_id)
+        target_user = get_object_or_404(CustomUser, id=user_id)
 
         if target_user == request.user:
             return Response(
@@ -76,30 +78,35 @@ class FollowUserView(APIView):
                 {"detail": f"You are now following {target_user.username}."},
                 status=status.HTTP_200_OK,
             )
+        return Response(
+            {"detail": f"You already follow {target_user.username}."},
+            status=status.HTTP_200_OK,
+        )
         
-class UnfollowUserView(APIView):
-    permission_classes = [IsAuthenticated]
+class UnfollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = CustomUser.objects.all()
 
     def delete(self, request, user_id):
-        target_user = get_object_or_404(User, id=user_id)
+        target_user = get_object_or_404(CustomUser, id=user_id)
 
         if target_user == request.user:
             return Response(
                 {"detail": "You cannot unfollow yourself."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-    
-    deleted_count, _ = Follow.objects.filter(
-        follower=request.user,
-        following=target_user,
-    ).delete()
 
-    if deleted_count:
+        deleted_count, _ = Follow.objects.filter(
+            follower=request.user,
+            following=target_user,
+        ).delete()
+
+        if deleted_count:
+            return Response(
+                {"detail": f"You unfollowed {target_user.username}."},
+                status=status.HTTP_200_OK,
+            )
         return Response(
-            {"detail": f"You unfollowed {target_user.username}."},
+            {"detail": f"You were not following {target_user.username}"},
             status=status.HTTP_200_OK,
         )
-    return Response(
-        {"detail": f"You were not following {target_user.username}"},
-        status=status.HTTP_200_OK,
-    )
