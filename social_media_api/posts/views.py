@@ -1,8 +1,9 @@
-from rest_framework import viewsets, generics, permissions
+from django.shortcuts import get_object_or_404
+from rest_framework import viewsets, generics, permissions, status
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, BasePermission, SAFE_METHODS
 
-from .models import Post, Comment
+from .models import Post, Comment, Like
 from .serializers import PostSerializer, CommentSerializer
 
 class isOwnerOrReadonly(BasePermission):
@@ -39,3 +40,57 @@ class FeedView(generics.ListAPIView):
     def get_queryset(self):
         following_users = self.request.user.following.all()
         return Post.objects.filter(author__in=following_users).order_by("-created_at")
+    
+class LikePostView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Post.objects.all()
+
+    def post(self, request, post_id, *args, **kwargs):
+        post = get_object_or_404(Post, id=post_id)
+
+        like, created = Like.objects.get_or_create(
+            user=request.user,
+            post=post,
+        )
+        if not created:
+            return Response(
+                {"detail": "You already liked this post."},
+                status=status.HTTP_200_OK,
+            )
+
+        # Notify post owner (skip self-like notification)
+        if post.author != request.user:
+            Notification.objects.create(
+                recipient=post.author,
+                actor=request.user,
+                verb="liked your post",
+                target=post,
+            )
+
+        return Response(
+            {"detail": "Post liked successfully."},
+            status=status.HTTP_201_CREATED,
+        )
+
+class UnlikePostView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Post.objects.all()
+
+    def delete(self, request, post_id, *args, **kwargs):
+        post = get_object_or_404(Post, id=post_id)
+
+        deleted_count, _ = Like.objects.filter(
+            user=request.user,
+            post=post,
+        ).delete()
+
+        if deleted_count == 0:
+            return Response(
+                {"detail": "You have not liked this post."},
+                status=status.HTTP_200_OK,
+            )
+
+        return Response(
+            {"detail": "Post unliked successfully."},
+            status=status.HTTP_200_OK,
+        )
