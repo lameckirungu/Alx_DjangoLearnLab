@@ -1,0 +1,17 @@
+[Unit]
+Description=Gunicorn instance to serve social_media_api
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/social_media_api
+EnvironmentFile=/home/ubuntu/social_media_api/.env
+ExecStart=/home/ubuntu/social_media_api/venv/bin/gunicorn \
+    --workers 3 \
+    --bind unix:/home/ubuntu/social_media_api/social_media_api.sock \
+    social_media_api.wsgi:application
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

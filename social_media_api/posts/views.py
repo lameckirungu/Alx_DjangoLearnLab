@@ -45,6 +45,7 @@ class FeedView(generics.ListAPIView):
 class LikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Post.objects.all()
+    serializer_class = PostSerializer
 
     def post(self, request, pk, *args, **kwargs):
         post = generics.get_object_or_404(Post, pk=pk)
@@ -73,6 +74,7 @@ class LikePostView(generics.GenericAPIView):
 class UnlikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Post.objects.all()
+    serializer_class = PostSerializer
 
     def delete(self, request, pk, *args, **kwargs):
         post = generics.get_object_or_404(Post, pk=pk)
